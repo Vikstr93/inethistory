@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Modern Internet History Wall</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050814;
+      --card-bg: rgba(10, 14, 36, 0.9);
+      --accent: #00f5ff;
+      --accent2: #ff00ff;
+      --text: #f8f8ff;
+      --muted: #9ca3af;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: inherit; }
+
+    .glow {
+      text-shadow:
+        0 0 8px rgba(0,245,255,0.8),
+        0 0 20px rgba(255,0,255,0.6),
+        0 0 40px rgba(0,245,255,0.7);
+    }
+    @keyframes neonFlicker {
+      0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        opacity: 1;
+        text-shadow:
+          0 0 8px rgba(0,245,255,0.8),
+          0 0 20px rgba(255,0,255,0.6),
+          0 0 40px rgba(0,245,255,0.7);
+      }
+      19%, 21%, 24%, 56% {
+        opacity: 0.6;
+        text-shadow:
+          0 0 4px rgba(0,245,255,0.4),
+          0 0 8px rgba(255,0,255,0.3);
+      }
+    }
+
+    header {
+      padding: 1.5rem 1.5rem 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .brand span {
+      color: var(--accent);
+    }
+    .tagline {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 1.5rem 2.5rem;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 2.5rem;
+      max-width: 1100px;
+      width: 100%;
+    }
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      main { align-items: flex-start; padding-top: 2rem; }
+    }
+
+    /* Left column: hero + wall */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+    .hero-kicker {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .hero-kicker-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: radial-gradient(circle, var(--accent) 0, transparent 70%);
+      box-shadow:
+        0 0 6px rgba(0,245,255,0.9),
+        0 0 14px rgba(0,245,255,0.7);
+    }
+    .hero-title {
+      font-size: clamp(2.4rem, 4vw, 3rem);
+      line-height: 1.1;
+      font-weight: 800;
+      margin-top: 0.4rem;
+    }
+    .hero-title span {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: neonFlicker 2.5s infinite;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: var(--muted);
+      max-width: 32rem;
+    }
+
+    .neon-offer {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .neon-pill {
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(34,211,238,0.8);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      background: radial-gradient(circle at 0 0, rgba(45,212,191,0.35), transparent 55%);
+      box-shadow:
+        0 0 10px rgba(45,212,191,0.7),
+        0 0 18px rgba(56,189,248,0.5);
+      color: var(--text);
+      animation: pulse 1.3s ease-in-out infinite alternate;
+      white-space: nowrap;
+    }
+    .neon-pill strong {
+      color: #facc15;
+    }
+    .neon-caption {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    @keyframes pulse {
+      from {
+        transform: translateY(0);
+        box-shadow:
+          0 0 4px rgba(45,212,191,0.5),
+          0 0 10px rgba(56,189,248,0.4);
+        opacity: 0.88;
+      }
+      to {
+        transform: translateY(-1px) scale(1.02);
+        box-shadow:
+          0 0 12px rgba(45,212,191,0.9),
+          0 0 26px rgba(56,189,248,0.8);
+        opacity: 1;
+      }
+    }
+
+    .hero-actions {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    .btn {
+      border-radius: 999px;
+      padding: 0.7rem 1.4rem;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: radial-gradient(circle at 0 0, var(--accent2), var(--accent));
+      color: #020617;
+      box-shadow:
+        0 0 10px rgba(56,189,248,0.7),
+        0 0 26px rgba(236,72,153,0.8);
+    }
+    .btn-primary:hover {
+      filter: brightness(1.1);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid rgba(148,163,184,0.4);
+      backdrop-filter: blur(10px);
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .logo-wall-wrapper {
+      margin-top: 1.6rem;
+      padding: 1rem;
+      border-radius: 1.25rem;
+      background: radial-gradient(circle at 0 0, rgba(56,189,248,0.16), transparent 55%),
+                  radial-gradient(circle at 100% 100%, rgba(236,72,153,0.16), transparent 55%);
+      border: 1px solid rgba(148,163,184,0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    .logo-wall-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.7rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .logo-wall-header span {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+    .logo-wall-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.6rem;
+    }
+    @media (max-width: 600px) {
+      .logo-wall-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    .logo-card {
+      background: rgba(15,23,42,0.85);
+      border-radius: 0.75rem;
+      border: 1px solid rgba(148,163,184,0.35);
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      color: var(--muted);
+      position: relative;
+      overflow: hidden;
+      padding: 0 0.4rem;
+      text-align: center;
+    }
+    .logo-card.featured {
+      border-color: rgba(125,211,252,0.9);
+      box-shadow:
+        0 0 16px rgba(56,189,248,0.9),
+        0 0 26px rgba(236,72,153,0.7);
+    }
+    .logo-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(
+        from 0deg,
+        rgba(56,189,248,0.25),
+        rgba(236,72,153,0.3),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .logo-card:hover::before {
+      opacity: 1;
+    }
+    .logo-card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Right column: contact form */
+    .card {
+      background: var(--card-bg);
+      border-radius: 1.4rem;
+      padding: 1.25rem 1.4rem 1.5rem;
+      border: 1px solid rgba(30,64,175,0.9);
+      box-shadow:
+        0 0 18px rgba(37,99,235,0.45),
+        0 0 40px rgba(15,23,42,0.9);
+      backdrop-filter: blur(18px);
+    }
+    .card-header {
+      margin-bottom: 0.9rem;
+    }
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .card-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-top: 0.3rem;
+    }
+    label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    input, textarea {
+      border-radius: 0.6rem;
+      border: 1px solid rgba(51,65,85,0.9);
+      background: rgba(15,23,42,0.9);
+      color: var(--text);
+      padding: 0.55rem 0.7rem;
+      font-size: 0.86rem;
+      outline: none;
+      transition: border 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+    input::placeholder, textarea::placeholder {
+      color: rgba(148,163,184,0.7);
+    }
+    input:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.5);
+      background: rgba(15,23,42,1);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+    .helper-text {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .form-footer {
+      margin-top: 0.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    footer {
+      font-size: 0.75rem;
+      color: var(--muted);
+      padding: 0.5rem 1.5rem 1.2rem;
+      text-align: center;
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <div class="brand"><span>NEON WALL</span> / INTERNET HISTORY</div>
+      <div class="tagline">A tiny piece of the web that refuses to die.</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="layout">
+      <!-- LEFT: hero + wall -->
+      <div class="hero">
+        <div>
+          <div class="hero-kicker">
+            <div class="hero-kicker-dot"></div>
+            Modern Internet Time Capsule
+          </div>
+          <h1 class="hero-title glow">
+            <span>9,99$ ad placement</span><br />
+            Cement your logo in time.
+          </h1>
+          <p class="hero-subtitle">
+            Become a piece of the modern internet history. Reserve your spot on
+            this neon sponsor wall and let your brand live on in the archives.
+          </p>
+
+          <div class="neon-offer">
+            <div class="neon-pill">
+              <strong>9,99$</strong> forever logo spot
+            </div>
+            <div class="neon-caption">
+              One-time fee. Human‑curated. No algorithms.
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">
+            Place my logo
+          </a>
+          <a href="#wall" class="btn btn-ghost">
+            View the wall
+          </a>
+        </div>
+
+        <div class="logo-wall-wrapper" id="wall">
+          <div class="logo-wall-header">
+            <div>
+              Hall of Logos
+              <br /><span>Modern internet believers</span>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--muted);">
+              Slots: <span>unlimited, but early birds look cooler</span>
+            </div>
+          </div>
+          <div class="logo-wall-grid">
+            <!-- You manually add / change these tiles when someone pays -->
+            <div class="logo-card featured">
+              <div class="logo-card-content">Your Logo Here</div>
+            </div>
+            <div class="logo-card">
+              <div class="logo-card-content">Retro Blog</div>
+            </div>
+            <div class="logo-card">
+              <div class="logo-card-content">Indie Studio</div>
+            </div>
+            <div class="logo-card">
+              <div class="logo-card-content">Pixel Café</div>
+            </div>
+            <div class="logo-card">
+              <div class="logo-card-content">Terminal Club</div>
+            </div>
+            <div class="logo-card">
+              <div class="logo-card-content">Cyber Arcade</div>
+            </div>
+            <div class="logo-card">
+              <div class="logo-card-content">404 Records</div>
+            </div>
+            <div class="logo-card">
+              <div class="logo-card-content">Neon Nights</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: contact “admin” card -->
+      <aside class="card" id="contact">
+        <div class="card-header">
+          <div class="card-title">Request your placement</div>
+          <div class="card-sub">
+            Fill this out to request a permanent logo placement. I will email you
+            back with payment details and add your logo manually once paid.
+          </div>
+        </div>
+
+        <!--
+          This form uses mailto:, so it just opens the visitor's email client
+          with the data filled in and sends directly to you.
+          Replace viktorstrindin93@gmail.com below with your real email.
+        -->
+        <form
+          action="mailto:viktorstrindin93@gmail.com"
+          method="POST"
+          enctype="text/plain"
+        >
+          <label>
+            Your name / company
+            <input
+              type="text"
+              name="Name"
+              placeholder="e.g. Neon Labs"
+              required
+            />
+          </label>
+
+          <label>
+            Your email
+            <input
+              type="email"
+              name="Email"
+              placeholder="you@example.com"
+              required
+            />
+          </label>
+
+          <label>
+            Website or project link
+            <input
+              type="url"
+              name="Website"
+              placeholder="https://your-site.com"
+              required
+            />
+          </label>
+
+          <label>
+            Logo file link (optional)
+            <input
+              type="url"
+              name="Logo URL"
+              placeholder="Link to PNG/SVG, or mention you'll email it"
+            />
+            <div class="helper-text">
+              You can also attach the logo in your reply email later.
+            </div>
+          </label>
+
+          <label>
+            Short note
+            <textarea
+              name="Note"
+              placeholder="Tell me what this logo represents or any special request."
+            ></textarea>
+          </label>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+            Request logo placement for 9,99$
+          </button>
+
+          <div class="form-footer">
+            <div>
+              No automatic payment here — every submission is handled
+              personally. After I receive your email, I'll reply with payment
+              instructions and confirm your spot.
+            </div>
+          </div>
+        </form>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    Made by a human, for humans. Contact:
+    <a href="mailto:viktorstrindin93@gmail.com">viktorstrindin93@gmail.com</a>
+  </footer>
+</body>
+</html>
