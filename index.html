@@ -73,25 +73,36 @@
     main {
       flex: 1;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
+      gap: 2rem;
       padding: 1rem 1.5rem 2.5rem;
     }
-    .layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 2.5rem;
+
+    .hero-section {
       max-width: 1100px;
       width: 100%;
-    }
-    @media (max-width: 900px) {
-      .layout {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      main { align-items: flex-start; padding-top: 2rem; }
+      margin: 0 auto;
     }
 
-    /* Left column: hero + wall */
+    .logo-section {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .logo-section-inner {
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .contact-section {
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Hero */
     .hero {
       display: flex;
       flex-direction: column;
@@ -228,7 +239,9 @@
                   radial-gradient(circle at 100% 100%, rgba(236,72,153,0.16), transparent 55%);
       border: 1px solid rgba(148,163,184,0.4);
       position: relative;
-      overflow: hidden;
+      height: min(72vh, 900px);
+      display: flex;
+      flex-direction: column;
     }
     .logo-wall-header {
       display: flex;
@@ -243,21 +256,24 @@
       text-transform: uppercase;
       letter-spacing: 0.16em;
     }
+    .logo-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 0.1rem;
+      margin-top: 0.4rem;
+    }
+
     .logo-wall-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 0.6rem;
-    }
-    @media (max-width: 600px) {
-      .logo-wall-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 0.45rem;
+      align-items: stretch;
     }
     .logo-card {
       background: rgba(15,23,42,0.85);
       border-radius: 0.75rem;
       border: 1px solid rgba(148,163,184,0.35);
-      height: 58px;
+      min-height: 70px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -265,7 +281,7 @@
       color: var(--muted);
       position: relative;
       overflow: hidden;
-      padding: 0 0.4rem;
+      padding: 0.4rem;
       text-align: center;
     }
     .logo-card.featured {
@@ -290,9 +306,13 @@
     .logo-card:hover::before {
       opacity: 1;
     }
-    .logo-card-content {
+    .logo-card-content,
+    .logo-card-content img {
       position: relative;
       z-index: 1;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
     }
 
     /* Right column: contact form */
@@ -390,8 +410,8 @@
   </header>
 
   <main>
-    <section class="layout">
-      <!-- LEFT: hero + wall -->
+    <!-- Neon header / hero -->
+    <section class="hero-section">
       <div class="hero">
         <div>
           <div class="hero-kicker">
@@ -403,8 +423,8 @@
             Cement your logo in time.
           </h1>
           <p class="hero-subtitle">
-            Become a piece of the modern internet history. Reserve your spot on
-            this neon sponsor wall and let your brand live on in the archives.
+            Become a piece of the modern internet history. Pay once, keep your logo
+            on this wall as long as the internet exists.
           </p>
 
           <div class="neon-offer">
@@ -421,53 +441,46 @@
           <a href="#contact" class="btn btn-primary">
             Place my logo
           </a>
-          <a href="#wall" class="btn btn-ghost">
+          <a href="#hall-of-logos" class="btn btn-ghost">
             View the wall
           </a>
         </div>
+      </div>
+    </section>
 
-        <div class="logo-wall-wrapper" id="wall">
+    <!-- Massive Hall of Logos -->
+    <section class="logo-section" id="hall-of-logos">
+      <div class="logo-section-inner">
+        <div class="logo-wall-wrapper">
           <div class="logo-wall-header">
             <div>
               Hall of Logos
               <br /><span>Modern internet believers</span>
             </div>
-            <div style="font-size: 0.75rem; color: var(--muted);">
-              Slots: <span>unlimited, but early birds look cooler</span>
+            <div style="font-size: 0.75rem; color: var(--muted); text-align: right;">
+              Target: <span>100,000+</span> logos · Goal: <span>$1,000,000</span>
+              <br /><span style="font-size: 0.7rem;">Scroll to explore the wall</span>
             </div>
           </div>
-          <div class="logo-wall-grid">
-            <!-- You manually add / change these tiles when someone pays -->
-            <div class="logo-card featured">
-              <div class="logo-card-content">Your Logo Here</div>
-            </div>
-            <div class="logo-card">
-              <div class="logo-card-content">Retro Blog</div>
-            </div>
-            <div class="logo-card">
-              <div class="logo-card-content">Indie Studio</div>
-            </div>
-            <div class="logo-card">
-              <div class="logo-card-content">Pixel Café</div>
-            </div>
-            <div class="logo-card">
-              <div class="logo-card-content">Terminal Club</div>
-            </div>
-            <div class="logo-card">
-              <div class="logo-card-content">Cyber Arcade</div>
-            </div>
-            <div class="logo-card">
-              <div class="logo-card-content">404 Records</div>
-            </div>
-            <div class="logo-card">
-              <div class="logo-card-content">Neon Nights</div>
+          <div class="logo-scroll">
+            <div class="logo-wall-grid" id="logo-wall">
+              <!--
+                LOGO ENTRIES ARE GENERATED BY JAVASCRIPT BELOW.
+                To add a logo:
+                1. Scroll to the <script> at the very bottom of this file.
+                2. Add a new object to the `logos` array, e.g.:
+                   { name: 'My Brand', url: 'https://my-site.com', logoUrl: 'https://...' }
+                3. Save and deploy.
+              -->
             </div>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- RIGHT: contact “admin” card -->
-      <aside class="card" id="contact">
+    <!-- Contact / request section -->
+    <section class="contact-section" id="contact">
+      <aside class="card">
         <div class="card-header">
           <div class="card-title">Request your placement</div>
           <div class="card-sub">
@@ -479,7 +492,6 @@
         <!--
           This form uses mailto:, so it just opens the visitor's email client
           with the data filled in and sends directly to you.
-          Replace viktorstrindin93@gmail.com below with your real email.
         -->
         <form
           action="mailto:viktorstrindin93@gmail.com"
@@ -556,5 +568,58 @@
     Made by a human, for humans. Contact:
     <a href="mailto:viktorstrindin93@gmail.com">viktorstrindin93@gmail.com</a>
   </footer>
+
+  <script>
+    // SIMPLE LOGO CONFIGURATION
+    // =========================
+    // This array is the ONLY place you need to edit to add logos.
+    // Each entry can be:
+    // { name: 'Brand Name' }
+    // { name: 'Brand Name', url: 'https://brand.com' }
+    // { name: 'Brand Name', url: 'https://brand.com', logoUrl: 'https://path/to/logo.png' }
+    //
+    // When someone pays, just add a new object here, commit, and redeploy.
+    const logos = [
+      { name: 'Your Logo Here', featured: true },
+      { name: 'Retro Blog' },
+      { name: 'Indie Studio' },
+      { name: 'Pixel Café' },
+      { name: 'Terminal Club' },
+      { name: 'Cyber Arcade' },
+      { name: '404 Records' },
+      { name: 'Neon Nights' },
+      // Example entries showing variety:
+      // { name: 'Example Brand', url: 'https://example.com' },
+      // { name: 'Logo With Image', url: 'https://example.com', logoUrl: 'https://example.com/logo.png' },
+    ];
+
+    const wall = document.getElementById('logo-wall');
+    if (wall) {
+      logos.forEach((entry) => {
+        const card = document.createElement('div');
+        card.className = 'logo-card' + (entry.featured ? ' featured' : '');
+
+        let inner = document.createElement(entry.url ? 'a' : 'div');
+        inner.className = 'logo-card-content';
+        if (entry.url) {
+          inner.href = entry.url;
+          inner.target = '_blank';
+          inner.rel = 'noopener noreferrer';
+        }
+
+        if (entry.logoUrl) {
+          const img = document.createElement('img');
+          img.src = entry.logoUrl;
+          img.alt = entry.name || 'Sponsor logo';
+          inner.appendChild(img);
+        } else if (entry.name) {
+          inner.textContent = entry.name;
+        }
+
+        card.appendChild(inner);
+        wall.appendChild(card);
+      });
+    }
+  </script>
 </body>
 </html>
