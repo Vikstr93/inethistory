@@ -290,6 +290,19 @@
         0 0 16px rgba(56,189,248,0.9),
         0 0 26px rgba(236,72,153,0.7);
     }
+    .logo-card.large {
+      grid-column: span 2;
+      grid-row: span 2;
+      min-height: 170px;
+      font-size: 0.9rem;
+    }
+    @media (max-width: 700px) {
+      .logo-card.large {
+        grid-column: span 2;
+        grid-row: span 1;
+        min-height: 120px;
+      }
+    }
     .logo-card::before {
       content: "";
       position: absolute;
@@ -580,6 +593,10 @@
     //
     // When someone pays, just add a new object here, commit, and redeploy.
     const logos = [
+      // First logo: your own, using 4 spots (2x2 in the grid).
+      // Put your logo image at: /assets/lund-logo.png
+      // (create an assets folder next to this index.html and place the file there)
+      { name: 'C LUND', logoUrl: 'assets/lund-logo.png', featured: true, size: 'large' },
       { name: 'Your Logo Here', featured: true },
       { name: 'Retro Blog' },
       { name: 'Indie Studio' },
@@ -597,7 +614,10 @@
     if (wall) {
       logos.forEach((entry) => {
         const card = document.createElement('div');
-        card.className = 'logo-card' + (entry.featured ? ' featured' : '');
+        let classes = ['logo-card'];
+        if (entry.featured) classes.push('featured');
+        if (entry.size === 'large') classes.push('large');
+        card.className = classes.join(' ');
 
         let inner = document.createElement(entry.url ? 'a' : 'div');
         inner.className = 'logo-card-content';
